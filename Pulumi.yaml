@@ -1,0 +1,10 @@
+name: 3a_github_actions
+description: iac, esc, oidc, aws, github actions at play
+runtime:
+  name: nodejs
+  options:
+    packagemanager: npm
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-typescript
