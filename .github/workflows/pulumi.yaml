@@ -21,10 +21,8 @@ jobs:
         uses: pulumi/auth-actions@v1
         with:
           organization: demo
-          oidc-auth: true
-          oidc-requested-token-type: urn:pulumi:token-type:access_token:organization
-
-
+          requested-token-type: urn:pulumi:token-type:access_token:organization
+          
       - name: Install and inject AWS credentials
         uses: pulumi/esc-action@v1
         with:
