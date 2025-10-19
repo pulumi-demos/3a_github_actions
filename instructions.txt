@@ -1,0 +1,35 @@
+I had to tweak the exercise.
+
+My usual team-ce ORG, pulumi repo IAC and AWS did not work.
+More info here : https://pulumi.slack.com/archives/C05G9TV06MB/p1760605610728989
+
+What i am considering doing ?
+1. repo under pulumi-demo github org : DONE https://github.com/pulumi/3_github_actions
+
+2. update existing role on pulumi-ce aws account with following audience, trust relation
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::052848974346:oidc-provider/api.pulumi.com/oidc"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringEquals": {
+                    "api.pulumi.com/oidc:aud": [
+						"team-ce",
+						"aws:team-ce",
+						"demo", #added new 
+						"aws:demo" ##  added new 
+                    ]
+                }
+            }
+        }
+    ]
+}
+
+3. pulumi cloud under demos org : created env, with iam role arn rference
+
+4. update the github/workflows/pulumi.yaml

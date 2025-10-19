@@ -1,0 +1,46 @@
+name: Pulumi Deployment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Authenticate with Pulumi Cloud
+        uses: pulumi/auth-actions@v1
+        with:
+          organization: demo
+          requested-token-type: urn:pulumi:token-type:access_token:organization
+
+      - name: Install and inject AWS credentials
+        uses: pulumi/esc-action@v1
+        with:
+          environment: my-github-action-deployment/shared-aws-dev
+
+      - name: Verify environment variables
+        run: |
+          echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"          
+
+      - name: Pulumi Preview
+        uses: pulumi/actions@v6
+        with:
+          command: preview
+          stack-name: demo/3a_github_actions/dev
+
+      - name: Pulumi Up
+        uses: pulumi/actions@v6
+        with:
+          command: up
+          stack-name: demo/3a_github_actions/dev
+          up-args: --yes
