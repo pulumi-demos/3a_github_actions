@@ -22,7 +22,12 @@ jobs:
         with:
           organization: demo
           requested-token-type: urn:pulumi:token-type:access_token:organization
-          
+
+      - name: Install all dependancies
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+
       - name: Install and inject AWS credentials
         uses: pulumi/esc-action@v1
         with:
@@ -32,7 +37,7 @@ jobs:
         run: |
           echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"          
 
-      - name: Pulumi Preview
+      - name: npm install and Pulumi Preview
         uses: pulumi/actions@v6
         with:
           command: preview
