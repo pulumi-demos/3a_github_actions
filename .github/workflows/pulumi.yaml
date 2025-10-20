@@ -23,7 +23,6 @@ jobs:
           organization: demo
           requested-token-type: urn:pulumi:token-type:access_token:organization
 
-
       - name: Install and inject AWS credentials
         uses: pulumi/esc-action@v1
         with:
@@ -36,9 +35,10 @@ jobs:
       - name: list buckets
         run: |
           aws s3 ls
+        
       - name: Install all dependancies 
         run: npm install
-        
+
       - name: npm install and Pulumi Preview
         uses: pulumi/actions@v6
         with:
