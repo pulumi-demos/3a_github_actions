@@ -36,10 +36,13 @@ jobs:
         run: |
           aws s3 ls
         
-      - name: Install all dependancies 
-        run: npm install
+      - name: pulumi install
+        uses: pulumi/actions@v6
+        with:
+          command: install
+          stack-name: demo/3a_github_actions/dev
 
-      - name: npm install and Pulumi Preview
+      - name:  Pulumi Preview
         uses: pulumi/actions@v6
         with:
           command: preview
